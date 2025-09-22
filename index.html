@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spendsence - Never Miss a Credit Card Benefit</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0F172A;
+            --accent: #3B82F6;
+            --accent-hover: #2563EB;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --danger: #EF4444;
+            --gray-50: #F9FAFB;
+            --gray-100: #F3F4F6;
+            --gray-200: #E5E7EB;
+            --gray-300: #D1D5DB;
+            --gray-400: #9CA3AF;
+            --gray-500: #6B7280;
+            --gray-600: #4B5563;
+            --gray-700: #374151;
+            --gray-800: #1F2937;
+            --gray-900: #111827;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: var(--gray-900);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        .header {
+            background: white;
+            padding: 1rem 0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            letter-spacing: -0.025em;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        /* Button Styles */
+        .btn {
+            padding: 0.625rem 1.25rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--accent);
+            border: 2px solid var(--accent);
+        }
+
+        .btn-secondary:hover {
+            background: var(--gray-50);
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--gray-700);
+        }
+
+        .btn-ghost:hover {
+            background: var(--gray-100);
+        }
+
+        /* Page Sections */
+        .page {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Landing Page */
+        .hero {
+            background: white;
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--primary);
+            letter-spacing: -0.03em;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--gray-600);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .feature-card {
+            background: var(--gray-50);
+            padding: 2rem;
+            border-radius: 1rem;
+            text-align: left;
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--accent);
+            border-radius: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        /* Dashboard */
+        .dashboard {
+            background: white;
+            min-height: calc(100vh - 80px);
+            padding: 2rem 0;
+        }
+
+        .dashboard-header {
+            margin-bottom: 2rem;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            border-bottom: 2px solid var(--gray-200);
+            margin-bottom: 2rem;
+        }
+
+        .tab {
+            padding: 0.75rem 1.5rem;
+            background: none;
+            border: none;
+            font-weight: 500;
+            color: var(--gray-500);
+            cursor: pointer;
+            position: relative;
+            transition: color 0.2s;
+        }
+
+        .tab:hover {
+            color: var(--gray-700);
+        }
+
+        .tab.active {
+            color: var(--accent);
+        }
+
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--accent);
+        }
+
+        .credit-grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .credit-card {
+            background: white;
+            border: 2px solid var(--gray-200);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .credit-card:hover {
+            border-color: var(--accent);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .credit-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1rem;
+        }
+
+        .credit-name {
+            font-weight: 600;
+            font-size: 1.125rem;
+            color: var(--gray-900);
+        }
+
+        .credit-issuer {
+            color: var(--gray-500);
+            font-size: 0.875rem;
+        }
+
+        .credit-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .badge-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .badge-warning {
+            background: var(--warning);
+            color: white;
+        }
+
+        .badge-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .progress-bar {
+            background: var(--gray-200);
+            height: 8px;
+            border-radius: 9999px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        /* Forms */
+        .form-container {
+            background: white;
+            max-width: 400px;
+            margin: 4rem auto;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--gray-700);
+        }
+
+        .form-input, .form-select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid var(--gray-200);
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+        }
+
+        .form-input:focus, .form-select:focus {
+            outline: none;
+            border-color: var(--accent);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: white;
+            padding: 1rem 1.5rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            display: none;
+            align-items: center;
+            gap: 1rem;
+            z-index: 2000;
+        }
+
+        .toast.show {
+            display: flex;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
+
+        .toast-success {
+            border-left: 4px solid var(--success);
+        }
+
+        .toast-error {
+            border-left: 4px solid var(--danger);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--gray-900);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        .footer-contact {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        .footer-contact a {
+            color: var(--gray-400);
+            text-decoration: none;
+        }
+
+        .footer-contact a:hover {
+            color: white;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .tabs {
+                overflow-x: auto;
+            }
+
+            .credit-header {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <a href="#" class="logo" onclick="showPage('landing')">Spendsence</a>
+                <div class="nav-buttons" id="navButtons">
+                    <button class="btn btn-ghost" onclick="showPage('login')">Login</button>
+                    <button class="btn btn-primary" onclick="showPage('signup')">Create Account</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Landing Page -->
+    <div id="landing" class="page active">
+        <section class="hero">
+            <div class="container">
+                <h1>Stop leaving money on the table</h1>
+                <p>Spendsence tracks your card perks and nudges you before they expire—so you actually use them.</p>
+                <button class="btn btn-primary" style="font-size: 1.125rem; padding: 1rem 2rem;" onclick="showPage('signup')">
+                    Get Started Free
+                </button>
+
+                <div class="features">
+                    <div class="feature-card">
+                        <div class="feature-icon">💳</div>
+                        <h3>Track All Credits</h3>
+                        <p>Monitor dining, travel, and lifestyle credits across all your premium cards.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">⏰</div>
+                        <h3>Smart Reminders</h3>
+                        <p>Get timely alerts before your benefits expire, customized to your preferences.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📊</div>
+                        <h3>Usage Analytics</h3>
+                        <p>See what you've used, what's remaining, and maximize every dollar of value.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <div class="container">
+                <p>&copy; 2025 Spendsence. Not affiliated with any card issuers.</p>
+                <div class="footer-contact">
+                    <a href="tel:773-969-1884">📞 773-969-1884</a>
+                    <a href="mailto:asimathar4@gmail.com">✉ asimathar4@gmail.com</a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Login Page -->
+    <div id="login" class="page">
+        <div class="form-container">
+            <h2 style="margin-bottom: 2rem;">Welcome Back</h2>
+            <form onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-input" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Login</button>
+            </form>
+            <p style="text-align: center; margin-top: 1.5rem; color: var(--gray-600);">
+                Don't have an account? <a href="#" onclick="showPage('signup')" style="color: var(--accent);">Sign up</a>
+            </p>
+            <p style="text-align: center; margin-top: 0.5rem;">
+                <a href="#" onclick="showPage('forgot-password')" style="color: var(--gray-500); font-size: 0.875rem;">Forgot password?</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Signup Page -->
+    <div id="signup" class="page">
+        <div class="form-container">
+            <h2 style="margin-bottom: 2rem;">Create Account</h2>
+            <form onsubmit="handleSignup(event)">
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" class="form-input" required minlength="8">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Security Question</label>
+                    <select class="form-select" required>
+                        <option value="">Select a question...</option>
+                        <option value="pet">What was your first pet's name?</option>
+                        <option value="city">In what city were you born?</option>
+                        <option value="school">What was your high school mascot?</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Security Answer</label>
+                    <input type="text" class="form-input" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Create Account</button>
+            </form>
+            <p style="text-align: center; margin-top: 1.5rem; color: var(--gray-600);">
+                Already have an account? <a href="#" onclick="showPage('login')" style="color: var(--accent);">Login</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div id="dashboard" class="page">
+        <div class="dashboard">
+            <div class="container">
+                <div class="dashboard-header">
+                    <h1>Your Credits</h1>
+                    <button class="btn btn-primary" onclick="showAddCreditModal()" style="float: right;">+ Add Credit</button>
+                </div>
+
+                <div class="tabs">
+                    <button class="tab active" onclick="switchTab('remaining')">Remaining</button>
+                    <button class="tab" onclick="switchTab('used')">Used</button>
+                    <button class="tab" onclick="switchTab('partial')">Partially Used</button>
+                </div>
+
+                <div id="remaining-tab" class="tab-content">
+                    <div class="credit-grid">
+                        <div class="credit-card">
+                            <div class="credit-header">
+                                <div>
+                                    <div class="credit-name">Amex Gold Dining</div>
+                                    <div class="credit-issuer">American Express</div>
+                                </div>
+                                <span class="credit-badge badge-warning">Expires in 9 days</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 8.33%;"></div>
+                            </div>
+                            <p style="color: var(--gray-600);">$10 / $120 annual</p>
+                            <p style="color: var(--gray-500); font-size: 0.875rem; margin-top: 0.5rem;">
+                                Monthly credit • $110 remaining this year
+                            </p>
+                        </div>
+
+                        <div class="credit-card">
+                            <div class="credit-header">
+                                <div>
+                                    <div class="credit-name">Chase Travel Credit</div>
+                                    <div class="credit-issuer">Chase Sapphire Reserve</div>
+                                </div>
+                                <span class="credit-badge badge-success">Active</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 50%;"></div>
+                            </div>
+                            <p style="color: var(--gray-600);">$150 / $300 annual</p>
+                            <p style="color: var(--gray-500); font-size: 0.875rem; margin-top: 0.5rem;">
+                                Annual credit • $150 remaining
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="used-tab" class="tab-content" style="display: none;">
+                    <div class="credit-grid">
+                        <div class="credit-card">
+                            <div class="credit-header">
+                                <div>
+                                    <div class="credit-name">Uber Credit - January</div>
+                                    <div class="credit-issuer">Amex Platinum</div>
+                                </div>
+                                <span class="credit-badge badge-success">Completed</span>
+                            </div>
+                            <p style="color: var(--gray-600);">Used $15 on Jan 28, 2025</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="partial-tab" class="tab-content" style="display: none;">
+                    <div class="credit-grid">
+                        <div class="credit-card">
+                            <div class="credit-header">
+                                <div>
+                                    <div class="credit-name">Digital Entertainment</div>
+                                    <div class="credit-issuer">Capital One Venture X</div>
+                                </div>
+                                <span class="credit-badge badge-warning">$5 remaining</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 66%;"></div>
+                            </div>
+                            <p style="color: var(--gray-600);">$10 / $15 monthly</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Credit Modal -->
+    <div id="addCreditModal" class="modal">
+        <div class="modal-content">
+            <h2 style="margin-bottom: 1.5rem;">Add Credit</h2>
+            <form onsubmit="handleAddCredit(event)">
+                <div class="form-group">
+                    <label class="form-label">Card Issuer</label>
+                    <select class="form-select" required>
+                        <option value="">Select issuer...</option>
+                        <option value="amex">American Express</option>
+                        <option value="chase">Chase</option>
+                        <option value="capital-one">Capital One</option>
+                        <option value="citi">Citi</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Card Name</label>
+                    <input type="text" class="form-input" placeholder="e.g., Platinum Card" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Credit Name</label>
+                    <input type="text" class="form-input" placeholder="e.g., Dining Credit" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Period Type</label>
+                    <select class="form-select" required>
+                        <option value="monthly">Monthly</option>
+                        <option value="quarterly">Quarterly</option>
+                        <option value="semi-annual">Semi-Annual</option>
+                        <option value="annual">Annual</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Amount per Period ($)</label>
+                    <input type="number" class="form-input" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Annual Cap ($)</label>
+                    <input type="number" class="form-input" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label style="display: flex; align-items: center; gap: 0.5rem;">
+                        <input type="checkbox" name="enrollment">
+                        <span>Enrollment Required</span>
+                    </label>
+                </div>
+                <div style="display: flex; gap: 1rem;">
+                    <button type="submit" class="btn btn-primary" style="flex: 1;">Add Credit</button>
+                    <button type="button" class="btn btn-secondary" style="flex: 1;" onclick="closeModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast">
+        <span id="toastMessage"></span>
+    </div>
+
+    <script>
+        // State management
+        let currentUser = null;
+        let credits = [];
+
+        // Page navigation
+        function showPage(page) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(page).classList.add('active');
+            
+            if (page === 'dashboard') {
+                updateNavButtons(true);
+                loadDashboard();
+            } else {
+                updateNavButtons(false);
+            }
+        }
+
+        function updateNavButtons(isLoggedIn) {
+            const navButtons = document.getElementById('navButtons');
+            if (isLoggedIn) {
+                navButtons.innerHTML = `
+                    <button class="btn btn-ghost" onclick="showPage('dashboard')">Dashboard</button>
+                    <button class="btn btn-ghost" onclick="handleLogout()">Logout</button>
+                `;
+            } else {
+                navButtons.innerHTML = `
+                    <button class="btn btn-ghost" onclick="showPage('login')">Login</button>
+                    <button class="btn btn-primary" onclick="showPage('signup')">Create Account</button>
+                `;
+            }
+        }
+
+        // Tab switching
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.style.display = 'none');
+            
+            event.target.classList.add('active');
+            document.getElementById(`${tabName}-tab`).style.display = 'block';
+        }
+
+        // Form handlers
+        function handleLogin(event) {
+            event.preventDefault();
+            showToast('Login successful! Welcome back.', 'success');
+            currentUser = { email: event.target[0].value };
+            setTimeout(() => showPage('dashboard'), 500);
+        }
+
+        function handleSignup(event) {
+            event.preventDefault();
+            showToast('Account created successfully!', 'success');
+            currentUser = { email: event.target[0].value };
+            setTimeout(() => showPage('dashboard'), 500);
+        }
+
+        function handleLogout() {
+            currentUser = null;
+            showToast('Logged out successfully', 'success');
+            showPage('landing');
+        }
+
+        function handleAddCredit(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            
+            credits.push({
+                issuer: formData.get('issuer'),
+                cardName: event.target[1].value,
+                creditName: event.target[2].value,
+                periodType: formData.get('period'),
+                amountPerPeriod: parseFloat(event.target[4].value),
+                annualCap: parseFloat(event.target[5].value),
+                enrollmentRequired: event.target[6].checked
+            });
+            
+            showToast('Credit added successfully!', 'success');
+            closeModal();
+            loadDashboard();
+        }
+
+        // Modal functions
+        function showAddCreditModal() {
+            document.getElementById('addCreditModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('addCreditModal').classList.remove('active');
+        }
+
+        // Toast notifications
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const toastMessage = document.getElementById('toastMessage');
+            
+            toast.className = `toast toast-${type} show`;
+            toastMessage.textContent = message;
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Dashboard data loading
+        function loadDashboard() {
+            // In production, this would fetch from API
+            console.log('Loading dashboard data...');
+        }
+
+        // Close modal on background click
+        document.getElementById('addCreditModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // Initialize demo data
+        function initDemoData() {
+            credits = [
+                {
+                    issuer: 'amex',
+                    cardName: 'Gold Card',
+                    creditName: 'Dining Credit',
+                    periodType: 'monthly',
+                    amountPerPeriod: 10,
+                    annualCap: 120,
+                    used: 10,
+                    remaining: 110
+                },
+                {
+                    issuer: 'chase',
+                    cardName: 'Sapphire Reserve',
+                    creditName: 'Travel Credit',
+                    periodType: 'annual',
+                    amountPerPeriod: 300,
+                    annualCap: 300,
+                    used: 150,
+                    remaining: 150
+                }
+            ];
+        }
+
+        // Initialize on page load
+        initDemoData();
+    </script>
+</body>
+</html>
